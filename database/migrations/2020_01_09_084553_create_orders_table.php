@@ -16,10 +16,10 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('order_id');
-            $table->string('customer_name', 30);
+            $table->string('customer_name', 255);
             $table->string('customer_mobile', 30);
-            $table->string('customer_address', 255);
-            $table->string('product_name', 30);
+            $table->text('customer_address');
+            $table->string('product_name', 255);
             $table->float('product_price');
             $table->integer('product_quantity');
             $table->float('shipping_charge');

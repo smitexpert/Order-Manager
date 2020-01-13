@@ -10,6 +10,7 @@
 		<link href="{{ url('') }}/css/font-awesome.min.css" rel="stylesheet">
 		<link href="{{ url('') }}/css/datepicker3.css" rel="stylesheet">
 		<link href="{{ url('') }}/datatable/datatables.min.css" rel="stylesheet">
+		<link href="{{ url('') }}/dist/css/bootstrap-select.min.css" rel="stylesheet">
 		<link href="{{ url('') }}/css/styles.css" rel="stylesheet">
 
 		<!--Theme Switcher-->
@@ -67,6 +68,7 @@
 		<script src="{{ url('') }}/js/easypiechart.js"></script>
 		<script src="{{ url('') }}/js/easypiechart-data.js"></script>
 		<script src="{{ url('') }}/js/bootstrap-datepicker.js"></script>
+		<script src="{{ url('') }}/dist/js/bootstrap-select.min.js"></script>
 		<script src="{{ url('') }}/js/custom.js"></script>
 		@stack('scripts')
 			

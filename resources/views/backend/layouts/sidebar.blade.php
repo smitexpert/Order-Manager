@@ -11,6 +11,7 @@
         <li class="{{ (Route::currentRouteName() == 'add') ? 'active' : '' }}"><a href="{{ route('add') }}"><em class="fa fa-calendar-plus-o">&nbsp;</em> Add Order</a></li>
         <li class="{{ (Route::currentRouteName() == 'all') ? 'active' : '' }}"><a href="{{ route('all') }}"><em class="fa fa-search">&nbsp;</em> Find Order</a></li>
         <li class="{{ (Route::currentRouteName() == 'pending') ? 'active' : '' }}"><a href="{{ route('pending') }}"><em class="fa fa-hourglass-half">&nbsp;</em> Pending Order</a></li>
+        <li class="{{ (Route::currentRouteName() == 'shipped') ? 'active' : '' }}"><a href="{{ route('shipped') }}"><em class="fa fa-paper-plane">&nbsp;</em> Shipped Order</a></li>
         <li class="{{ (Route::currentRouteName() == 'courier') ? 'active' : '' }}"><a href="{{ route('courier') }}"><em class="fa fa-bicycle">&nbsp;</em> Courier Services</a></li>
         <li class="{{ (Route::currentRouteName() == 'shop') ? 'active' : '' }}"><a href="{{ route('shop') }}"><em class="fa fa-shopping-cart">&nbsp;</em> Shop Manager</a></li>
     </ul>

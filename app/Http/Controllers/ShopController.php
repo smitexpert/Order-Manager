@@ -35,4 +35,29 @@ class ShopController extends Controller
 
         return back()->with('success', 'Shop Successfully Deleted!');
     }
+
+    public function upload(Request $request, $id){
+        // $request->validate([
+        //     'shopLogo' => 'required|image'
+        // ]);
+
+        $name = Shop::where('id', $id)->first();
+        $name = $name->name;
+
+        // $request->shopLogo->storeAs('shop_logos', $name);
+
+        $path = $request->file('shopLogo')->storeAs(
+            'shop_logos', $name.".".$request->file('shopLogo')->getClientOriginalExtension()
+        );
+
+        // $path = $request->file('shopLogo')->store($name.'.'.$request->file('shopLogo')->getClientOriginalExtension());
+
+        // return $path;
+
+        Shop::where('id', $id)->update([
+            'shop_logo' => $path
+        ]);
+
+        return back()->with('success', 'Shop Logo Uploaded Successfully!');
+    }
 }

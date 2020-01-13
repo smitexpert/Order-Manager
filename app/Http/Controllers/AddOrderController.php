@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Courier;
+use App\District;
 use App\Order;
+use App\OrderDistrict;
 use App\Shop;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class AddOrderController extends Controller
@@ -17,7 +20,8 @@ class AddOrderController extends Controller
     public function index(){
         $shops = Shop::all();
         $couriers = Courier::all();
-        return view('backend.addorder.index', compact('shops', 'couriers'));
+        $districts = District::all();
+        return view('backend.addorder.index', compact('shops', 'couriers', 'districts'));
     }
 
     public function store(Request $request){
@@ -34,10 +38,11 @@ class AddOrderController extends Controller
             'discount' => 'required',
             'totalCharge' => 'required',
             'deliveryDate' => 'required',
+            'customerDistrict' => 'required',
         ]);
 
         $total = (($request->productPrice * $request->productQuantity) + $request->shippingCharge) - $request->discount;
-        Order::create([
+        $id = Order::insertGetId([
             'order_id' => time(),
             'customer_name' => $request->customerName,
             'customer_mobile' => $request->customerMobile,
@@ -51,9 +56,20 @@ class AddOrderController extends Controller
             'delivery_date' => $request->deliveryDate,
             'shop_id' => $request->shop,
             'courier_id' => $request->courier,
+            'created_at' => Carbon::now()
+        ]);
+
+        OrderDistrict::create([
+            'order_id' => $id,
+            'name' => $request->customerDistrict
         ]);
 
         // return $request->all();
-        return back()->with('success', 'Order Successfully Added!');
+        return back()->with('success', 'Order Successfully Added!')->with('shop', $request->shop);
+    }
+
+    public function charge($id){
+        $response = Courier::where('id', $id)->first();
+        return response()->json($response);
     }
 }

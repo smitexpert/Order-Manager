@@ -9,6 +9,7 @@ class Shop extends Model
 {
     use SoftDeletes;
     protected $fillable = [
-        'name'
+        'name',
+        'shop_logo'
     ];
 }

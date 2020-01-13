@@ -66,6 +66,20 @@
                                             <a href="#" class="btn btn-sm btn-primary"><i class="fa fa-cog"></i></a>
                                             <a onclick="return confirm('Are You Sure?');" href="{{ route('shop.delete', $shop->id) }}" class="btn btn-sm btn-danger"><i class="fa fa-trash-o"></i></a>
                                         </div>
+                                        @if ($shop->shop_logo != NULL)
+                                            <img style="width: 90px; height: auto;" src="{{ url('/storage') }}/{{ $shop->shop_logo }}" alt="">
+                                        @endif
+                                        <div class="pull-right">
+                                            <form action="{{ route('shop.upload', $shop->id) }}" method="POST" enctype="multipart/form-data">
+                                                @csrf
+                                                <div class="input-group">
+                                                    <input type="file" name="shopLogo" class="form-control">
+                                                    <div class="input-group-btn">
+                                                        <button class="btn btn-success">Upload</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

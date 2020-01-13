@@ -40,10 +40,14 @@
                         <div class="form-group">
                             <label class="col-md-2 control-label">Select Shop</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="shop" value="{{ old('shop') }}" required>
+                                <select class="form-control" name="shop" id="shop" value="{{ old('shop') }}" required>
                                     <option value="">Select</option>
                                     @foreach ($shops as $shop)
-                                        <option value="{{ $shop->id }}">{{ $shop->name }}</option>
+                                        <option value="{{ $shop->id }}" @if(Session::has('shop'))
+                                            @if(Session::get('shop') == $shop->id)
+                                                selected
+                                            @endif
+                                            @endif>{{ $shop->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -67,9 +71,20 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="col-md-2 control-label">Customer District</label>
+                            <div class="col-md-10">
+                                <select name="customerDistrict" id="customerDistrict" class="form-control"  data-live-search="true">
+                                    <option value="">--</option>
+                                    @foreach ($districts as $district)
+                                        <option value="{{ $district->name }}">{{ $district->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="col-md-2 control-label">Select Courier</label>
                             <div class="col-md-10">
-                                <select class="form-control" name="courier" value="{{ old('courier') }}" required>
+                                <select class="form-control" id="courier" name="courier" value="{{ old('courier') }}" required>
                                     <option value="">Select</option>
                                     @foreach ($couriers as $courier)
                                         <option value="{{ $courier->id }}">{{ $courier->name }}</option>
@@ -158,6 +173,9 @@
 @push('scripts')
     <script>
         $(document).ready(function(){
+
+            $('#customerDistrict').selectpicker();
+
             if($('#productPrice').val() == ''){
                 $('#productPrice').val(0);
             }
@@ -173,6 +191,20 @@
             if($('#totalCharge').val() == ''){
                 $('#totalCharge').val(0);
             }
+
+            $("#courier").change(function(){
+                var id = $(this).val();
+                if(id != ""){
+                    $.ajax({
+                        url: "{{ url('/') }}/add/"+id+"/charge",
+                        method: 'get',
+                        success: function(data){
+                            $("#shippingCharge").val(data.charge);
+                            getTotal();
+                        }
+                    });
+                }
+            });
             
         })
 
