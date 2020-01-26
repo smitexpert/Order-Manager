@@ -10,6 +10,7 @@ class Shop extends Model
     use SoftDeletes;
     protected $fillable = [
         'name',
-        'shop_logo'
+        'shop_logo',
+        'shop_contact'
     ];
 }

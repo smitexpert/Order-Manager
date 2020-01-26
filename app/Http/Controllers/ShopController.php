@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Shop;
 use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class ShopController extends Controller
 {
@@ -20,11 +21,13 @@ class ShopController extends Controller
     public function store(Request $request){
 
         $request->validate([
-            'shopName' => 'string|required'
+            'shopName' => 'string|required',
+            'shopContact' => 'numeric|required'
         ]);
 
         Shop::create([
-            'name' => $request->shopName
+            'name' => $request->shopName,
+            'shop_contact' => $request->shopContact
         ]);
 
         return back()->with('success', 'Shop Successfully Added!');
@@ -37,20 +40,22 @@ class ShopController extends Controller
     }
 
     public function upload(Request $request, $id){
-        // $request->validate([
-        //     'shopLogo' => 'required|image'
-        // ]);
+        $request->validate([
+            'shopLogo' => 'required|image'
+        ]);
 
         $name = Shop::where('id', $id)->first();
         $name = $name->name;
 
-        // $request->shopLogo->storeAs('shop_logos', $name);
+        // $path = $request->file('shopLogo')->storeAs(
+        //     'shop_logos', $name.".".$request->file('shopLogo')->getClientOriginalExtension()
+        // );
 
-        $path = $request->file('shopLogo')->storeAs(
-            'shop_logos', $name.".".$request->file('shopLogo')->getClientOriginalExtension()
-        );
+        $image = $request->file('shopLogo');
 
-        // $path = $request->file('shopLogo')->store($name.'.'.$request->file('shopLogo')->getClientOriginalExtension());
+        Image::make($image)->save(base_path("public/uploads/shop_logos/").$name.'.'.$image->getClientOriginalExtension());
+
+        $path = "/uploads/shop_logos/".$name.'.'.$image->getClientOriginalExtension();
 
         // return $path;
 
@@ -59,5 +64,19 @@ class ShopController extends Controller
         ]);
 
         return back()->with('success', 'Shop Logo Uploaded Successfully!');
+    }
+
+    public function get($id){
+        $data = Shop::find($id);
+        return response()->json($data);
+    }
+
+    public function update(Request $request){
+        Shop::where('id', $request->shopId)->update([
+            'name' => $request->shopName,
+            'shop_contact' => $request->shopContact
+        ]);
+
+        return 'OK';
     }
 }

@@ -51,6 +51,10 @@ Route::prefix('shipped')->name('shipped')->group(function(){
     Route::get('/{id}/print', 'ShippedOrderController@print')->name('.print');
 });
 
+Route::prefix('printed')->name('printed')->group(function(){
+    Route::get('/', 'PrintedOrderController@index');
+});
+
 Route::get('/courier', 'CourierServiceController@index')->name('courier');
 
 Route::post('/courier', 'CourierServiceController@store')->name('courier.store');
@@ -61,4 +65,11 @@ Route::prefix('/shop')->name('shop')->group(function(){
     Route::post('/', 'ShopController@store')->name('.store');
     Route::get('/{id}/delete', 'ShopController@delete')->name('.delete');
     Route::post('/{id}/upload', 'ShopController@upload')->name('.upload');
+    Route::get('/{id}/get', 'ShopController@get')->name('.get');
+    Route::post('/update', 'ShopController@update')->name('.update');
+});
+
+Route::prefix('/image')->name('image')->group(function(){
+    Route::get('/', 'ImageController@index');
+    Route::post('/', 'ImageController@upload')->name('.upload');
 });

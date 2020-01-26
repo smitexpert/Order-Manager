@@ -57,7 +57,7 @@
                                         <td>
                                             <div class="btn-group">
                                                 <button id="order_{{ $item->id }}" class="btn btn-sm btn-info showOrderModal"><i class="fa fa-eye"></i></button>
-                                                <a href="{{ route('shipped.print', $item->id) }}" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-print"></i></a>
+                                                <a href="{{ route('shipped.print', $item->id) }}" target="_blank" onclick="document.reload()" class="btn btn-sm btn-warning"><i class="fa fa-print"></i></a>
                                             </div>
                                         </td>
                                     </tr>

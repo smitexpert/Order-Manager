@@ -40,4 +40,8 @@ class Order extends Model
     public function payments(){
         return $this->hasMany('App\Payment', 'order_id', 'id');
     }
+
+    public function remarks(){
+        return $this->hasMany('App\Remark', 'order_id', 'id');
+    }
 }
